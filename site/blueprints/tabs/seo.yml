@@ -1,0 +1,14 @@
+label: SEO
+icon: search
+fields:
+  seoTitle:
+    label: SEO Title
+    type: text
+    width: 2/3
+    placeholder: '{{page.title}}'
+  seoDescription:
+    label: SEO Description
+    type: textarea
+    buttons: false
+    width: 2/3
+

@@ -1,0 +1,31 @@
+{
+  "name": "project",
+  "browserslist": "> 0.5%, last 2 versions, not dead, Safari 14",
+  "scripts": {
+    "clean": "rm -rf ./public/assets/dist",
+    "watch": "parcel watch ./src/app.js --no-hmr --dist-dir ./public/assets/dist --public-url .",
+    "build": "parcel build --no-source-maps --no-cache ./src/app.js --dist-dir ./public/assets/dist --public-url .",
+    "prod": "npm run clean && npm run build",
+    "deploy:test": "./.deploy/deploy stage",
+    "deploy:push": "./.deploy/deploy stage go"
+  },
+  "targets": {
+    "main": false
+  },
+  "parcel-namer-rewrite": {
+    "hashing": "never"
+  },
+  "dependencies": {
+    "alpinejs": "^3.15.12",
+    "swup": "^4.9.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@csstools/postcss-text-decoration-shorthand": "^4.0.3",
+    "@parcel/transformer-sass": "^2.16.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "parcel": "^2.16.0",
+    "parcel-namer-rewrite": "^2.10.3-rc.5",
+    "postcss": "^8.5.6"
+  }
+}

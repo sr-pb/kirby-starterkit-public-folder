@@ -1,0 +1,40 @@
+label: "SEO, Adresse und Kontakt"
+icon: user
+columns:
+  address:
+    width: 2/3
+    sections:
+      address:
+        type: fields
+        fields:
+
+          name:
+            label: Name
+            type: text
+            required: true
+
+  sidebar:
+    width: 1/3
+    sections:
+      sidebar:
+        type: fields
+        fields:
+          seoTitle:
+            label: Webseitentitel
+            help: Erscheint im Browsertab
+            type: text
+            width: 2/3
+            required: true
+          seoDescription:
+            label: "SEO Description"
+            help: Standardbeschreibung
+            type: textarea
+            buttons: false
+          seoImage:
+            type: files
+            label: "Social Image"
+            multiple: false
+            image:
+              cover: false
+              ratio: 1/1
+              back: white

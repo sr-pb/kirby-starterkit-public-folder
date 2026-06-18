@@ -1,0 +1,66 @@
+@use "../abstracts" as *;
+
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    min-height: 100%;
+    // height: 100%;
+}
+
+body {
+    background: #fff;
+    color: black;
+    font-family: 'synt';
+    font-size: var(--text-base);
+    line-height: var(--line-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    touch-action: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+p, h1, h2, h3, h4 {
+    margin: 0;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+    font-size: inherit;
+}
+
+button {
+    font: inherit;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.is-stuck {
+    body {
+        padding-right: var(--scrollbar-width);
+        overflow: hidden;
+    }
+}

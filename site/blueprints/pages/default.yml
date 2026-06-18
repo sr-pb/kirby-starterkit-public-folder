@@ -1,0 +1,12 @@
+title: Standard
+
+tabs:
+  content_fields:
+    label: Inhalt
+    sections:
+      text:
+        type: fields
+        extends: sections/content
+
+  uploads: tabs/fileuploads
+  seo: tabs/seo

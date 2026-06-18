@@ -1,0 +1,9 @@
+type: writer
+label: Text
+
+nodes:
+  - paragraph
+marks:
+  - italic
+  - link
+  - clear

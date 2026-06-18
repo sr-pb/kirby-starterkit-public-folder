@@ -1,0 +1,10 @@
+type: writer
+label: Text
+
+inline: true
+marks:
+  - italic
+  - "|"
+  - link
+  - "|"
+  - clear

@@ -1,0 +1,14 @@
+type: writer
+label: Text
+
+headings:
+  - 2
+  - 3
+nodes:
+  - heading
+  - paragraph
+  - bulletList
+marks:
+  - italic
+  - link
+  - clear

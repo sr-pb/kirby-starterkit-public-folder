@@ -1,0 +1,40 @@
+@use "../abstracts" as *;
+
+:root {
+    /*
+    * Layout
+    *
+    */
+
+    --scrollbar-width: 0px;
+
+    --gutter: 12px;
+    --pageX: 24px;
+
+    --columns: 8;
+
+    --grid-size: calc(((100vw - var(--scrollbar-width)) - (2 * var(--pageX)) - (7 * var(--gutter))) / 8);
+
+    --offset-header: 16px;
+
+
+    /*
+    * Text sizes
+    *
+    */
+
+    --text-base: 14px;
+    --line-base: 22px;
+
+    --margin: var(--line-base);
+
+    --underline-offset: 0.2em;
+    --underline-thickness: 0.05em;
+
+    /*
+    * Transitions
+    *
+    */
+
+    --slide-in: .35s;
+}

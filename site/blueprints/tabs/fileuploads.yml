@@ -1,0 +1,18 @@
+label: Hochgeladene Dateien
+# icon: file
+sections:
+  uploadedImages:
+    label: Bilder
+    type: files
+    query: page.images
+    template: image
+    search: true
+    batch: true
+
+  uploadedDocuments:
+    label: Dokumente
+    type: files
+    query: page.documents
+    template: document
+    search: true
+    batch: true

@@ -1,0 +1,22 @@
+# Deploy configuration
+# ---------------------
+# Copy this file to ".deploy/config" and fill in your values.
+# The "config" file is gitignored and never committed.
+
+# Project title (display only)
+PROJECT="My Kirby Site"
+
+# Expected local folder name (safety guard: deploy only runs from this folder)
+LOCAL="my-project"
+
+# SSH target: user@host
+SERVER="user@domain.tld"
+
+# Target folder on the server (trailing slash matters for rsync)
+TARGET="folder/"
+
+# SSH port flag, e.g. "-p22" or "-p2121"
+PORT="-p22"
+
+# Local root folder to sync from (trailing slash = sync contents)
+FOLDER="./"

@@ -1,0 +1,20 @@
+@use '../abstracts' as *;
+
+/**
+ * Swup main transitions
+ *
+ */
+
+.page-transition {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+
+html.is-changing .page-transition {
+  transition: opacity 0.25s;
+  opacity: 1;
+}
+
+html.is-animating .page-transition {
+  opacity: 0;
+}

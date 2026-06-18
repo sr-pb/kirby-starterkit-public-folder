@@ -1,0 +1,57 @@
+@use '../abstracts' as *;
+
+#skiplinks {
+    .skiplink {
+        position: absolute;
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+
+        &:focus {
+            top: var(--offset-header);
+            left: var(--pageX);
+            // position: static;
+            width: auto;
+            height: auto;
+            z-index: 9999999;
+
+            padding: 20px;
+            background-color: black;
+            color: white;
+        }
+    }
+}
+
+#header a,
+#nav {
+    &:focus-visible {
+        outline-offset: 2px;
+        outline-width: 2px;
+        outline-color: CanvasText;
+        outline-style: solid;
+    }
+
+    @media (prefers-contrast: more) {
+        &:focus-visible {
+            outline: auto;
+        }
+    }
+}
+
+#nav {
+    &:focus-visible {
+        outline-offset: -2px;
+
+        @include media('md') {
+            outline-offset: 6px;
+        }
+    }
+}
+
+#main {
+    &[tabindex="-1"] {
+        outline: 0 none;
+    }
+}

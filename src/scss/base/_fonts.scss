@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "rf";
+    // src: url("/src/static/fonts/font.otf") format("opentype");
+    // font-display: fallback;
+}
+
+@font-face {
+    font-family: "f";
+    // src: url("/src/static/fonts/font.otf") format("opentype");
+    font-display: swap;
+    font-style: italic;
+}

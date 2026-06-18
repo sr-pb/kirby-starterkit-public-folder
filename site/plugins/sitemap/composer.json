@@ -1,0 +1,11 @@
+{
+    "name": "sr/sitemap",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Rüegg",
+            "email": "simon.rueegg@gmail.com"
+        }
+    ]
+}

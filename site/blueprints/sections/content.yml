@@ -1,0 +1,6 @@
+fields:
+  blocks:
+    label: Inhalt
+    type: blocks
+    fieldsets:
+      - text

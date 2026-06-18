@@ -1,0 +1,4 @@
+type: files
+label: Image
+uploads: image
+multiple: false

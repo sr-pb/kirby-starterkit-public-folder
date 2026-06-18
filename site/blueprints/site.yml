@@ -1,0 +1,14 @@
+title: Dashboard
+
+tabs:
+  dashboard:
+    label: Übersicht
+    columns:
+      overview:
+        width: 1/1
+        sections:
+          overview:
+            type: pages
+
+  # settings tab
+  settings: tabs/settings

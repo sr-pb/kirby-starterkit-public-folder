@@ -1,0 +1,48 @@
+@use "../abstracts" as *;
+
+.text-center {
+    text-align: center;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.hover-underline {
+    text-decoration-thickness:var(--underline-thickness);
+
+    &:hover {
+        text-decoration-line: underline;
+        text-underline-offset: var(--underline-offset);
+    }
+}
+
+.strike-through {
+    text-decoration-line: line-through;
+    text-decoration-thickness:var(--underline-thickness);
+}
+
+
+.text-base {
+    font-size: var(--text-base);
+    line-height: var(--line-base);
+    --margin: var(--line-base);
+    --underline-offset: 0.2em;
+}
+
+/**
+ * Prefixed utility classes
+ * lg:text-base, md:text-base, sm:text-base, etc.
+ */
+@each $breakpoint, $value in $breakpoints {
+    @include media($breakpoint, 'min') {
+        .#{escape($breakpoint)}\:text-base {
+            font-size: var(--text-base);
+            line-height: var(--line-base);
+            --margin: var(--line-base);
+            --underline-offset: 0.2em;
+        }
+    }
+}
+
+
