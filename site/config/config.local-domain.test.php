@@ -14,7 +14,6 @@ return [
     ],
 
     'sr' => [
-        'showDev' => true,
         'env' => 'dev'
     ],
 

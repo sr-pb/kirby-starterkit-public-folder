@@ -11,8 +11,8 @@ RewriteEngine on
 # if redirect from www to non-www is needed
 # https://forum.getkirby.com/t/redirect-from-www-to-non-www-via-htaccess/20136/8?u=_sr
 #
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 
 # make sure to set the RewriteBase correctly

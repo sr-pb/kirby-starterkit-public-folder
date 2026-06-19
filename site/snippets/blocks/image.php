@@ -9,7 +9,6 @@ $image = $block->image()->toFile();
 <?php
 
 $src = $image->thumb('small')->url();
-$srcWebp = $image->thumb('smallWebp')->url();
 $srcset = $image->srcset('default');
 $width = $image->thumb('small')->width();
 $height = $image->thumb('small')->height();

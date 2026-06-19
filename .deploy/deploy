@@ -4,8 +4,11 @@
 # https://stackoverflow.com/questions/42154912/permission-denied-for-build-sh-file
 #
 # Usage (from project root):
-#   ./.deploy/deploy stage      # dry run: show what would change
-#   ./.deploy/deploy stage go   # deploy for real
+#   ./.deploy/deploy <profile>       # dry run: show what would change
+#   ./.deploy/deploy <profile> go    # deploy for real
+#
+# Profiles are defined in .deploy/config (see config.example).
+# Example: ./.deploy/deploy live      |  ./.deploy/deploy live go
 #
 # Sources:
 # - https://github.com/HashandSalt/ForgeLiteKirby/blob/develop/config/deploy
@@ -13,68 +16,99 @@
 
 set -euo pipefail
 
-# Load project-specific config (gitignored). See config.example.
+# --- Styling (only when writing to a terminal) ---------------------------
+if [[ -t 1 ]]; then
+	BOLD=$'\033[1m'; RESET=$'\033[0m'
+	YELLOW=$'\033[93m'; GREEN=$'\033[92m'; RED=$'\033[91m'
+else
+	BOLD=""; RESET=""; YELLOW=""; GREEN=""; RED=""
+fi
+DOT="•"; OK="✓"; CROSS="✗"; WARN="⚠"
+LINE="────────────────────────────────────────────────────────────"
+
+# --- Config (gitignored; see config.example) -----------------------------
 CONFIG="./.deploy/config"
 if [[ ! -f "${CONFIG}" ]]; then
-	echo -e "\033[31m! Error:\tMissing ${CONFIG}\033[0m"
-	echo -e "\033[31m\tCopy .deploy/config.example to .deploy/config and fill it in.\033[0m"
+	printf '%s%s Error:%s  Missing %s\n' "${RED}" "${WARN}" "${RESET}" "${CONFIG}"
+	printf '%s         Copy .deploy/config.example to .deploy/config and fill it in.%s\n' "${RED}" "${RESET}"
 	exit 1
 fi
 # shellcheck source=/dev/null
 source "${CONFIG}"
 
-# Get current folder
+EXCLUDE="./.deploy/rsync_exclude.txt"
 BASE=$(basename "${PWD}")
+ERRORSTRING="Usage: ./.deploy/deploy <profile> [go]   (e.g. live | live go)"
 
-ERRORSTRING="Whoops! That didn't work. Please check the command you ran."
+# label  value  [color]
+row() {
+	local color="${3:-${YELLOW}}"
+	printf '%s%s %-9s%s %s\n' "${color}" "${DOT}" "$1" "${RESET}" "$2"
+}
 
-if [[ "${BASE}" == "${LOCAL}" ]]
-then
-	echo -e "\033[93m\xe2\x80\xa2 Project:\t${PROJECT}\033[0m"
-	echo -e "\033[93m\xe2\x80\xa2 Local:\t$(pwd)\033[0m"
-	echo -e "\033[93m\xe2\x80\xa2 Target:\t${TARGET}\033[0m"
-	echo -e "\033[93m\xe2\x80\xa2 Server:\t\xe2\x86\xa6 ${SERVER}\033[0m"
-
-	if [ $# -eq 0 ]
-	then
-		echo "$ERRORSTRING"
-		exit 1
-
-	elif [[ "$1" == "stage" ]]
-	then
-		if [[ -z "${2:-}" ]]
-		then
-			echo -e "\033[93m\xe2\x80\xa2 Action:\tCompare file tree (dry run)\033[0m"
-			echo ""
-			rsync --dry-run -avz --delete --progress \
-				--exclude-from="./.deploy/rsync_exclude.txt" \
-				-e "ssh ${PORT}" "${FOLDER}" "${SERVER}:${TARGET}" \
-				&& echo -e "\033[92m\xe2\x9c\x93 Dry run completed\033[0m"
-		elif [[ "$2" == "go" ]]
-		then
-			echo -e "\033[93m\xe2\x80\xa2 Action:\tDeploy on server\033[0m"
-			echo ""
-			rsync -avz --delete --progress \
-				--exclude-from="./.deploy/rsync_exclude.txt" \
-				-e "ssh ${PORT}" "${FOLDER}" "${SERVER}:${TARGET}" \
-				&& echo -e "\033[92m\xe2\x9c\x93 Deployed on live server\033[0m"
-		else
-			echo "$ERRORSTRING"
-			exit 1
-		fi
-	else
-		echo "$ERRORSTRING"
-		exit 1
-	fi
-else
-	echo -e "\033[31m\xe2\x80\xa2 Project:\t${PROJECT}\033[0m"
-	echo -e "\033[31m\xe2\x80\xa2 Local:\t$(pwd)\033[0m"
-	echo -e "\033[31m\xe2\x80\xa2 Target:\t${TARGET}\033[0m"
-	echo -e "\033[31m\xe2\x80\xa2 Server:\t\xe2\x86\xa6 ${SERVER}\033[0m"
-	echo -e "\033[31m-----------------------------------------------------------------\033[0m"
-	echo -e "\033[31m! Error:\tWrong folder name\033[0m"
-	echo -e "\033[31m\xe2\x80\xa2 Expected:\t/${LOCAL}\033[0m"
-	echo -e "\033[31m\xe2\x80\xa2 Current:\t/${BASE}\033[0m"
-	echo -e "\033[31m-----------------------------------------------------------------\033[0m"
+fail() {
+	printf '%s%s %s%s\n' "${RED}" "${CROSS}" "$1" "${RESET}"
 	exit 1
+}
+
+# --- Folder guard ---------------------------------------------------------
+if [[ "${BASE}" != "${LOCAL}" ]]; then
+	printf '%s%s%s\n' "${RED}" "${LINE}" "${RESET}"
+	printf '%s%s Wrong folder name%s\n' "${RED}" "${WARN}" "${RESET}"
+	row "Expected" "/${LOCAL}" "${RED}"
+	row "Current"  "/${BASE}"  "${RED}"
+	printf '%s%s%s\n' "${RED}" "${LINE}" "${RESET}"
+	exit 1
+fi
+
+# --- Resolve profile ------------------------------------------------------
+PROFILE="${1:-}"
+[[ -z "${PROFILE}" ]] && fail "${ERRORSTRING}"
+
+MODE="${2:-}"
+case "${MODE}" in
+	"")   LIVE=0 ;;   # dry run
+	go)   LIVE=1 ;;   # real
+	*)    fail "${ERRORSTRING}" ;;
+esac
+
+# Pull profile fields by name (e.g. LIVE_SERVER)
+KEY=$(echo "${PROFILE}" | tr '[:lower:]' '[:upper:]')
+SERVER_VAR="${KEY}_SERVER"
+TARGET_VAR="${KEY}_TARGET"
+PORT_VAR="${KEY}_PORT"
+
+if [[ -z "${!SERVER_VAR:-}" || -z "${!TARGET_VAR:-}" ]]; then
+	fail "Unknown or incomplete profile: '${PROFILE}'. Check ${CONFIG}."
+fi
+
+SERVER="${!SERVER_VAR}"
+TARGET="${!TARGET_VAR}"
+# Per-profile port if set, otherwise the global PORT
+SSH_PORT="${!PORT_VAR:-${PORT:-}}"
+
+# --- Output header --------------------------------------------------------
+row "Project" "${PROJECT}"
+row "Profile" "${PROFILE}"
+row "Source"  "${FOLDER}"
+row "Target"  "${SERVER}:${TARGET}"
+
+run_rsync() {
+	local dry=""
+	[[ "${LIVE}" -eq 0 ]] && dry="--dry-run"
+	rsync ${dry} -azLK --force --delete --progress \
+		--exclude-from="${EXCLUDE}" \
+		-e "ssh ${SSH_PORT}" "${FOLDER}" "${SERVER}:${TARGET}"
+}
+
+if [[ "${LIVE}" -eq 0 ]]; then
+	row "Action" "Dry run (no changes)"
+	echo ""
+	run_rsync
+	printf '%s%s Dry run completed%s\n' "${GREEN}" "${OK}" "${RESET}"
+else
+	row "Action" "${BOLD}DEPLOY FOR REAL${RESET}"
+	echo ""
+	run_rsync
+	printf '%s%s Deployed (%s)%s\n' "${GREEN}" "${OK}" "${PROFILE}" "${RESET}"
 fi

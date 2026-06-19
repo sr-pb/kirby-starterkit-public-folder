@@ -4,6 +4,7 @@ import { Dispatch } from './utils/dispatch';
 import Swup from 'swup';
 
 import Alpine from 'alpinejs'
+import persist from '@alpinejs/persist';
 
 
 /**
@@ -30,6 +31,7 @@ window.swup = swup
  */
 
 window.Alpine = Alpine;
+Alpine.plugin(persist)
 
 // Alpine.plugin(pluginname)
 // Alpine.data('component', component)

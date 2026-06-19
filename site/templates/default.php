@@ -1,5 +1,3 @@
-<?php snippet('layout/header') ?>
-
-<h1><?= $page->title() ?></h1>
-
-<?php snippet('layout/footer') ?>
+<?php snippet('layout', slots: true) ?>
+    <h1><?= $page->title() ?></h1>
+<?php endsnippet() ?>

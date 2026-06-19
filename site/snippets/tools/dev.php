@@ -1,20 +1,21 @@
-<?php
-
-$env = $kirby->option('sr.env');
-
-?>
-<?php if ($env == 'dev') : ?>
 <div
+    aria-label="Press 'G' to show grid"
     x-data="{
         showGrid: Alpine.$persist(false),
+        cols: 0,
+        columns() {
+            this.cols = parseInt(getComputedStyle($el.querySelector('#dev-grids')).getPropertyValue('--dev-columns')) ?? 8
+        }
     }"
+    x-init="columns()"
     id="dev-tools"
     class="dev-vertical"
-    @keyup.window="
-        if ($event.keyCode == 71) {
+    x-on:keyup.window="
+        if ($event.keyCode === 71) {
             showGrid = ! showGrid
         }
     "
+    x-on:resize.window="columns()"
 >
     <div
         id="dev-grids"
@@ -22,10 +23,10 @@ $env = $kirby->option('sr.env');
         style="display: none"
     >
         <div class="dev-grid dev-grid-spacing">
-            <template x-for="i in 9">
+            <template x-for="i in cols">
                 <div class="dev-grid-spacing-item"></div>
             </template>
         </div>
     </div>
 </div>
-<?php endif ?>
+

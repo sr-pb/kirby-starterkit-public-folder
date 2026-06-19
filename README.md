@@ -1,6 +1,6 @@
 # kirby-starterkit-public-folder
 
-Kirby CMS starterkit for a **public folder setup**, with a Parcel asset pipeline and an rsync deploy script.
+Kirby CMS starterkit for a public folder setup.
 
 ## Setup
 
@@ -11,43 +11,30 @@ npm install
 
 Web server document root must point at `/public`.
 
-## Asset pipeline
+## Asset bundling
 
 Built with [Parcel](https://parceljs.org/) from `src/app.js` into
-`public/assets/dist`. Filenames are not hashed.
+`public/assets/dist`.
 
 | Command           | Description                                  |
 | ----------------- | -------------------------------------------- |
 | `npm run watch`   | Watch and rebuild on change (no HMR)         |
-| `npm run build`   | Production build (no source maps, no cache)  |
-| `npm run prod`    | `clean` + `build`                            |
+| `npm run prod`    | Production build (no source maps)            |
 | `npm run clean`   | Remove `public/assets/dist`                  |
 
-`console.*` is stripped from production builds.
 
 ## Deployment
 
-rsync over SSH — for the public folder / SSH setup only.
+Optional. rsync over SSH. Copy `.deploy/config.example`
+to `.deploy/config` and fill in your server details — each profile needs a
+`<NAME>_SERVER` and `<NAME>_TARGET`; add or remove profiles freely. Trigger
+deploys via the `deploy:*` scripts in `package.json` (the `:sim` variants are
+dry runs). Uses `rsync --delete`; excludes live in `.deploy/rsync_exclude.txt`.
 
-### One-time config
+| Command                      | Description                       |
+| ---------------------------- | --------------------------------- |
+| `npm run deploy:live:sim`    | Dry run against live              |
+| `npm run deploy:live`        | Deploy to live                    |
+| `npm run deploy:staging:sim` | Dry run against staging           |
+| `npm run deploy:staging`     | Deploy to staging                 |
 
-```bash
-cp .deploy/config.example .deploy/config   # fill in, gitignored
-chmod +x .deploy/deploy
-```
-
-### Commands (run from project root)
-
-| Command               | Description                          |
-| --------------------- | ------------------------------------ |
-| `npm run deploy:test` | Dry run — review before pushing      |
-| `npm run deploy:push` | Deploy to live server                |
-
-Uses `rsync --delete`; excludes live in `.deploy/rsync_exclude.txt`. Always
-run `deploy:test` first and check the `deleting ...` lines. The script only
-runs when the current folder name matches `LOCAL` in your config.
-
-## Notes
-
-- Sensitive dirs (`content`, `storage`, `public/media`) are gitignored and
-  excluded from deploys.
