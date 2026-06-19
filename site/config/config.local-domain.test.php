@@ -9,10 +9,6 @@ return [
         ]
     ],
 
-    'sr.partial-cache' => [
-        'cache' => false,
-    ],
-
     'sr' => [
         'env' => 'dev'
     ],

@@ -41,11 +41,12 @@
     a:not(.inline-reference-link) {
         text-decoration-line: underline;
         text-underline-offset: var(--underline-offset);
-        text-decoration-thickness:var(--underline-thickness);
+        text-decoration-thickness: var(--underline-thickness);
     }
 }
 
 .block-type-text {
+
     &:not(:first-child),
     &:not(:first-child) h2,
     &:not(:first-child) h3 {

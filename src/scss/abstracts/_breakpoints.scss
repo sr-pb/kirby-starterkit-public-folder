@@ -17,27 +17,29 @@ $breakpoints: (
 
 @mixin media($breakpoint, $min-max: 'min') {
 
-  // If the breakpoint exists in the map.
-  @if map.has-key($breakpoints, $breakpoint) {
+    // If the breakpoint exists in the map.
+    @if map.has-key($breakpoints, $breakpoint) {
 
-    // Get the breakpoint value.
-    $breakpoint-value: map.get($breakpoints, $breakpoint);
+        // Get the breakpoint value.
+        $breakpoint-value: map.get($breakpoints, $breakpoint);
 
-    $max: 0;
+        $max: 0;
 
-    @if $min-max == 'max' {
-        $max: 1;
+        @if $min-max =='max' {
+            $max: 1;
+        }
+
+        // Write the media query.
+        @media (#{$min-max}-width: #{$breakpoint-value - $max}) {
+            @content;
+        }
+
+        // If the breakpoint doesn't exist in the map.
     }
 
-    // Write the media query.
-    @media (#{$min-max}-width: #{$breakpoint-value - $max}) {
-      @content;
+    @else {
+
+        // Log a warning.
+        @warn 'Invalid breakpoint: #{$breakpoint}.';
     }
-
-  // If the breakpoint doesn't exist in the map.
-  } @else {
-
-    // Log a warning.
-    @warn 'Invalid breakpoint: #{$breakpoint}.';
-  }
 }

@@ -4,11 +4,11 @@ return function ($page, $pages, $site, $kirby) {
     $seoTitle = '';
     $seoPageTitle = '';
 
-    if($site->seoTitle()->isNotEmpty()) {
+    if ($site->seoTitle()->isNotEmpty()) {
         $seoPageTitle = $site->seoTitle();
     }
 
-    if($page->seoTitle()->isNotEmpty()) {
+    if ($page->seoTitle()->isNotEmpty()) {
         $seoTitle = $page->seoTitle();
     } else {
         $seoTitle = $page->title();
@@ -36,5 +36,4 @@ return function ($page, $pages, $site, $kirby) {
         'seoDescription' => $seoDescription,
         'seoImage' => $seoImage,
     ];
-
 };

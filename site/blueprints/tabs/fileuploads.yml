@@ -1,16 +1,33 @@
-label: Hochgeladene Dateien
-# icon: file
+label: Files
+icon: file
 sections:
   uploadedImages:
-    label: Bilder
+    label: Images
     type: files
     query: page.images
     template: image
     search: true
     batch: true
+    layout: table
+    columns:
+      title: true
+      dimensions:
+        label: Dimensions
+        value: '{{ file.imageDimension }} '
+        type: html
+        width: 1/4
+
+      size:
+        label: File size
+        value: '{{ file.fileSize }} '
+        type: html
+        width: 1/4
+    help: |
+      - Maximum size: 2400 × 2400 px
+      - Use the sRGB color profile
 
   uploadedDocuments:
-    label: Dokumente
+    label: Documents
     type: files
     query: page.documents
     template: document
