@@ -1,1 +1,0 @@
-<?php snippet('tools/dev') ?>
