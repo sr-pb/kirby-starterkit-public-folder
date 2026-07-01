@@ -39,7 +39,7 @@ Kirby::plugin('sr/sitemap', [
             'action' => function () {
                 $content = snippet('sitemap/robots', [], true);
 
-                return new \Kirby\Http\Response($content, 'text/plain', 200);
+                return new Response($content, 'text/plain', 200);
             }
         ]
     ]
