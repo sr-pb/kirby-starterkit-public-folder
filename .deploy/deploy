@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# Edit: Version 2 completely rewritten by Claude AI
+#
 # Before run: chmod +x .deploy/deploy
 # https://stackoverflow.com/questions/42154912/permission-denied-for-build-sh-file
 #
@@ -19,14 +21,14 @@ set -euo pipefail
 # --- Styling (only when writing to a terminal) ---------------------------
 if [[ -t 1 ]]; then
 	BOLD=$'\033[1m'; RESET=$'\033[0m'
-	YELLOW=$'\033[93m'; GREEN=$'\033[92m'; RED=$'\033[91m'
+	YELLOW=$'\033[93m'; GREEN=$'\033[92m'; RED=$'\033[91m'; DIM=$'\033[90m'
 else
-	BOLD=""; RESET=""; YELLOW=""; GREEN=""; RED=""
+	BOLD=""; RESET=""; YELLOW=""; GREEN=""; RED=""; DIM=""
 fi
-DOT="•"; OK="✓"; CROSS="✗"; WARN="⚠"
+OK="✓"; CROSS="✗"; WARN="⚠"; ARROW="→"
 LINE="────────────────────────────────────────────────────────────"
 
-# --- Config (gitignored; see config.example) -----------------------------
+# --- Config --------------------------------------------------------------
 CONFIG="./.deploy/config"
 if [[ ! -f "${CONFIG}" ]]; then
 	printf '%s%s Error:%s  Missing %s\n' "${RED}" "${WARN}" "${RESET}" "${CONFIG}"
@@ -42,8 +44,8 @@ ERRORSTRING="Usage: ./.deploy/deploy <profile> [go]   (e.g. live | live go)"
 
 # label  value  [color]
 row() {
-	local color="${3:-${YELLOW}}"
-	printf '%s%s %-9s%s %s\n' "${color}" "${DOT}" "$1" "${RESET}" "$2"
+	local color="${3:-${DIM}}"
+	printf '  %s%-9s%s %s\n' "${color}" "$1" "${RESET}" "$2"
 }
 
 fail() {
@@ -88,10 +90,11 @@ TARGET="${!TARGET_VAR}"
 SSH_PORT="${!PORT_VAR:-${PORT:-}}"
 
 # --- Output header --------------------------------------------------------
-row "Project" "${PROJECT}"
+printf '%s▸ Deploy · %s%s\n\n' "${YELLOW}" "${PROJECT}" "${RESET}"
 row "Profile" "${PROFILE}"
-row "Source"  "${FOLDER}"
+row "Path"    "$(pwd)"
 row "Target"  "${SERVER}:${TARGET}"
+echo ""
 
 run_rsync() {
 	local dry=""
@@ -102,13 +105,22 @@ run_rsync() {
 }
 
 if [[ "${LIVE}" -eq 0 ]]; then
-	row "Action" "Dry run (no changes)"
-	echo ""
+	printf '  %s%s Dry run (no changes)%s\n\n' "${YELLOW}" "${ARROW}" "${RESET}"
 	run_rsync
-	printf '%s%s Dry run completed%s\n' "${GREEN}" "${OK}" "${RESET}"
+	printf '\n%s%s Dry run completed%s\n' "${GREEN}" "${OK}" "${RESET}"
 else
-	row "Action" "${BOLD}DEPLOY FOR REAL${RESET}"
-	echo ""
-	run_rsync
-	printf '%s%s Deployed (%s)%s\n' "${GREEN}" "${OK}" "${PROFILE}" "${RESET}"
+	printf '  %s%s This will deploy the project to: %s%s%s\n\n' "${YELLOW}" "${ARROW}" "${BOLD}${RED}" "${PROFILE}" "${RESET}"
+	printf 'Do you want to continue?  (y/N) '
+	read -r reply
+	case "${reply}" in
+		y|Y|yes|Yes)
+			echo ""
+			run_rsync
+			printf '\n%s%s Deployed to %s (%s)%s\n' "${GREEN}" "${OK}" "${PROFILE}" "${SERVER}" "${RESET}"
+			;;
+		*)
+			printf '%s%s Aborted%s\n' "${DIM}" "${CROSS}" "${RESET}"
+			exit 1
+			;;
+	esac
 fi

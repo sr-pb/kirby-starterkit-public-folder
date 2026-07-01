@@ -28,13 +28,15 @@ Built with [Parcel](https://parceljs.org/) from `src/app.js` into
 Optional. rsync over SSH. Copy `.deploy/config.example`
 to `.deploy/config` and fill in your server details — each profile needs a
 `<NAME>_SERVER` and `<NAME>_TARGET`; add or remove profiles freely. Trigger
-deploys via the `deploy:*` scripts in `package.json` (the `:sim` variants are
+deploys via the `deploy:*` scripts in `package.json` (the `:dry` variants are
 dry runs). Uses `rsync --delete`; excludes live in `.deploy/rsync_exclude.txt`.
+
+Examples:
 
 | Command                      | Description                       |
 | ---------------------------- | --------------------------------- |
-| `npm run deploy:live:sim`    | Dry run against live              |
+| `npm run deploy:live:dry`    | Dry run against live              |
 | `npm run deploy:live`        | Deploy to live                    |
-| `npm run deploy:staging:sim` | Dry run against staging           |
+| `npm run deploy:staging:dry` | Dry run against staging           |
 | `npm run deploy:staging`     | Deploy to staging                 |
 

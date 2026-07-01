@@ -14,8 +14,9 @@ $title = $page->isHomePage() ? $seoTitle : $seoTitle . ' – ' . $seoPageTitle;
 <meta property="og:description" content="<?= Str::unhtml($seoDescription) ?>">
 <meta property="og:url" content="<?= $page->url() ?>">
 <?php if ($seoImage !== null) : ?>
-<meta property="og:image" content="<?= $seoImage->url() ?>">
-<meta property="og:image:width" content="<?= $seoImage->width() ?>">
-<meta property="og:image:height" content="<?= $seoImage->height() ?>">
+<?php $seoThumb = $seoImage->thumb('seo'); ?>
+<meta property="og:image" content="<?= $seoThumb->url() ?>">
+<meta property="og:image:width" content="<?= $seoThumb->width() ?>">
+<meta property="og:image:height" content="<?= $seoThumb->height() ?>">
 <meta property="og:image:type" content="<?= $seoImage->mime() ?>">
 <?php endif ?>

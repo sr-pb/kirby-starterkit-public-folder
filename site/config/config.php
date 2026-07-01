@@ -39,6 +39,7 @@ return [
     'thumbs' => [
         'presets' => [
             'small' => ['width' => 400, 'height' => 400, 'quality' => 75, 'format' => 'webp'],
+            'seo' => ['width' => 1200, 'quality' => 75, 'format' => 'webp'],
         ],
         'srcsets' => [
             'default' => [

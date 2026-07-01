@@ -6,9 +6,9 @@
     "watch": "parcel watch ./src/app.js --no-hmr --dist-dir ./public/assets/dist --public-url .",
     "build": "parcel build --no-source-maps --no-cache ./src/app.js --dist-dir ./public/assets/dist --public-url .",
     "prod": "npm run clean && npm run build",
-    "deploy:live:sim": "./.deploy/deploy live",
+    "deploy:live:dry": "./.deploy/deploy live",
     "deploy:live": "./.deploy/deploy live go",
-    "deploy:staging:sim": "./.deploy/deploy staging",
+    "deploy:staging:dry": "./.deploy/deploy staging",
     "deploy:staging": "./.deploy/deploy staging go"
   },
   "targets": {
