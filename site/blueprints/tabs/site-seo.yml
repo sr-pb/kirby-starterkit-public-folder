@@ -1,0 +1,49 @@
+label: SEO
+# icon: user
+columns:
+  seoLeft:
+    width: 2/3
+    sections:
+      seoLeft:
+        type: fields
+        fields:
+
+          seoTitle:
+            label:
+              en: Website title
+              de: Website-Titel
+            help:
+              en: Appears in the browser tab and is often used as the title in search results.
+              de: Erscheint im Browser-Tab und häufig als Titel in Suchmaschinen.
+            type: text
+            required: true
+
+          seoDescription:
+            label:
+              en: SEO description
+              de: SEO-Beschreibung
+            help:
+              en: Short description for search engines. Around 120–160 characters is recommended.
+              de: Kurze Beschreibung für Suchmaschinen. Etwa 120–160 Zeichen empfohlen.
+            type: textarea
+            buttons: false
+
+  seoRight:
+    width: 1/3
+    sections:
+      seoRight:
+        type: fields
+        fields:
+          seoImage:
+            type: files
+            label: Social image
+            help:
+              en: |
+                Used when sharing the website on social media. Recommended size: 1200 × 630 px.
+              de: |
+                Wird beim Teilen der Website auf sozialen Netzwerken verwendet. Empfohlen: 1200 × 630 px.
+            multiple: false
+            layout: cards
+            image:
+              cover: false
+              ratio: 1/1

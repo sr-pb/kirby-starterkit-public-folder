@@ -2,16 +2,14 @@
 
 use Kirby\Toolkit\Str;
 
-$title = $page->isHomePage() ? $seoTitle : $seoTitle . ' – ' . $seoPageTitle;
-
 ?>
-<title><?= $title ?></title>
-<meta name="description" content="<?= Str::unhtml($seoDescription) ?>">
-<meta property="og:site_name" content="<?= $site->seoTitle() ?>">
+<title><?= $seoPageTitle ?></title>
+<meta name="description" content="<?= $seoDescription ?>">
+<meta property="og:site_name" content="<?= $seoSiteName ?>">
 <meta property="og:locale" content="de_CH">
 <meta property="og:type" content="website">
-<meta property="og:title" content="<?= $title ?>">
-<meta property="og:description" content="<?= Str::unhtml($seoDescription) ?>">
+<meta property="og:title" content="<?= $seoPageTitle ?>">
+<meta property="og:description" content="<?= $seoDescription ?>">
 <meta property="og:url" content="<?= $page->url() ?>">
 <?php if ($seoImage !== null) : ?>
 <?php $seoThumb = $seoImage->thumb('seo'); ?>

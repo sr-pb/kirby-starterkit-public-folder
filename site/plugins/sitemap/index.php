@@ -15,7 +15,6 @@ Kirby::plugin('sr/sitemap', [
             'action'  => function () {
                 $content = snippet('sitemap/sitemap', [], true);
 
-                // return response with correct header type
                 return new Response($content, 'application/xml');
             }
         ],

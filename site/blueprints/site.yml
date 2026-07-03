@@ -11,4 +11,4 @@ tabs:
             type: pages
 
   # settings tab
-  settings: tabs/settings
+  seo: tabs/site-seo

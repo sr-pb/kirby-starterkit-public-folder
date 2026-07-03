@@ -1,18 +1,19 @@
 <?php
 
+use Kirby\Toolkit\Str;
+
 return function ($page, $pages, $site, $kirby) {
     $seoTitle = '';
-    $seoPageTitle = '';
 
-    if ($site->seoTitle()->isNotEmpty()) {
-        $seoPageTitle = $site->seoTitle();
-    }
+    $seoSiteName = $site->seoTitle() ?? '';
 
     if ($page->seoTitle()->isNotEmpty()) {
         $seoTitle = $page->seoTitle();
     } else {
         $seoTitle = $page->title();
     }
+
+    $seoPageTitle = $page->isHomePage() ? $seoTitle : $seoTitle . ' – ' . $seoSiteName;
 
     $seoDescription = '';
 
@@ -31,9 +32,10 @@ return function ($page, $pages, $site, $kirby) {
     }
 
     return [
+        'seoSiteName' => $seoSiteName,
         'seoPageTitle' => $seoPageTitle,
         'seoTitle' => $seoTitle,
-        'seoDescription' => $seoDescription,
+        'seoDescription' => Str::unhtml($seoDescription),
         'seoImage' => $seoImage,
     ];
 };

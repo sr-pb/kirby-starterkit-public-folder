@@ -9,4 +9,4 @@ tabs:
         extends: sections/content
 
   uploads: tabs/fileuploads
-  seo: tabs/seo
+  seo: tabs/page-seo
