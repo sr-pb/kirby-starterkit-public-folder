@@ -2,15 +2,6 @@
 
 date_default_timezone_set('Europe/Berlin');
 
-/**
- * Cookie salt
- * https://getkirby.com/docs/guide/security#set-secure-random-values-for-the-content-salt-and-cookie-key
- *
- * Run in terminal: php -r "echo bin2hex(random_bytes(64)), PHP_EOL;"
- */
-
-// Kirby\Http\Cookie::$key = '';
-
 return [
     'debug' => false,
 
@@ -52,22 +43,17 @@ return [
     ],
 
     /**
-     * Content salt
-     * https://getkirby.com/docs/guide/security#set-secure-random-values-for-the-content-salt-and-cookie-key
+     * Security
+     * - https://getkirby.com/docs/guide/security
+     * - Disable Vue template compiler
+     * - Content salt
+     * - Cookie salt
      *
-     * Run in terminal: php -r "echo bin2hex(random_bytes(64)), PHP_EOL;"
-     */
-
-    // 'content' => [
-    //     'salt' => ''
-    // ],
-
-    /**
-     * Disable Vue template compiler
-     * https://getkirby.com/docs/guide/security#disable-the-vue-template-compiler
+     * Salt: Run in terminal: php -r "echo bin2hex(random_bytes(64)), PHP_EOL;"
      */
     'panel.vue.compiler' => false,
-
+    // 'content.salt' => '',
+    // 'cookie.key' => '',
 
     /**
      * Minify HTML
