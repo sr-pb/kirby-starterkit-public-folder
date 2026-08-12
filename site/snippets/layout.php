@@ -28,7 +28,6 @@ $env = $kirby->option('sr.env');
         </main>
         <?php snippet('footer') ?>
     </div>
-    <?php snippet('tools/dev') ?>
     <?php if ($env === 'dev') snippet('tools/dev') ?>
     <?= Bnomei\Fingerprint::js('/assets/dist/app.js') ?>
 </body>
